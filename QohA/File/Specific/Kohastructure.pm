@@ -28,14 +28,14 @@ sub check_charset_collate {
             $current_table = $2;
         }
         next unless $line =~ m|CHARSET=utf8|;
-        next if $line =~ m|utf8_unicode_ci|;
+        next if $line =~ m|utf8mb4_unicode_ci|;
         push @bad_charset_collate, $current_table;
     }
     close $fh;
     return 1 unless @bad_charset_collate;
     my @errors;
     push @errors,
-      "The table $_ does not have the current charset collate (see bug 11944)"
+      "The table $_ does not have the current charset collate (see bug 18336)"
       for @bad_charset_collate;
     return @errors;
 }
