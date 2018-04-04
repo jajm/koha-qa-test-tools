@@ -103,6 +103,31 @@ eval {
             }
         );
     }
+
+    print "\nProcessing additional checks";
+    my @log_formats = `git log --oneline -$num_of_commits`;
+    my @errors;
+    for my $log_format ( @log_formats ) {
+        my ( $sha, @commit_title ) = split ' ', $log_format;
+        my $commit_title = join ' ', @commit_title;
+        if ( $commit_title !~ m|^Bug\s\d{4,5}: | ) {
+            push @errors, "Commit title does not start with 'Bug XXXXX: ' - $sha";
+        }
+        if ( $commit_title =~ m|follow-?up|i ) {
+            if ( $commit_title !~ m|follow-up\)| ) {
+                push @errors, "Commit title does not contain 'follow-up' correctly spelt - $sha";
+            }
+            if ( $commit_title =~ m|qa.?follow.?up|i and not $commit_title =~ m|\(QA follow-up\)| ) {
+                push @errors, "Commit title does not contain '(QA follow-up)' correctly spelt - $sha";
+            }
+        }
+    }
+    if ( @errors ) {
+        say "\n";
+        say "\t* $_" for @errors;
+    } else {
+        say " OK!";
+    }
 };
 
 if ($@) {
