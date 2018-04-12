@@ -64,10 +64,11 @@ sub check_valid_template {
       ? 'opac'
       : 'intranet';
     my $theme = $tmpl_type eq 'intranet' ? 'prog' : 'bootstrap';
+    my $interface = "/$tmpl_type-tmpl";
     $template_dir =
-      File::Spec->rel2abs("koha-tmpl/${tmpl_type}-tmpl/prog/en/modules");
+      File::Spec->rel2abs("koha-tmpl/$interface/prog/en/modules");
     $include_dir =
-      File::Spec->rel2abs("koha-tmpl/${tmpl_type}-tmpl/$theme/en/includes");
+      File::Spec->rel2abs("koha-tmpl/$interface/$theme/en/includes");
 
     my $tt = Template->new(
         {
@@ -77,7 +78,7 @@ sub check_valid_template {
         }
     );
 
-    my $vars;
+    my $vars = { interface => $interface, theme => $theme };
     my $output;
     my $absf = File::Spec->rel2abs($self->path);
 
