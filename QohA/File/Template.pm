@@ -114,8 +114,9 @@ sub check_forbidden_patterns {
         {pattern => qr{(^|\s)(h|H)e(\s|$)}, error => "Do not assume male gender, use they/them instead (bug 18432)"},
         {pattern => qr{(^|\s)(h|H)is(\s|$)}, error => "Do not assume male gender, use they/them instead (bug 18432)"},
         {pattern => qr{\[\%[^\%\]]*$}, error => "Do not use line breaks inside template tags (bug 18675)"},
-        {pattern => qr{<link\s.*[^\]]\.css}, error => "Include [% KOHA_VERSION %] in css paths (bug 12904) - May be false positive"},
-        {pattern => qr{<script\s.*[^\]]\.js}, error => "Include [% KOHA_VERSION %] in js paths (bug 12904) - May be false positive"},
+        {pattern => qr{<link\s.*\.css}, error => "Do *not* include full path to css files, use the Asset TT plugin (bug 20538)"},
+        {pattern => qr{<script\s.*\.js}, error => "Do *not* include full path to js files, use the Asset TT plugin (bug 20538)"},
+
     );
 
     my $errors = $self->SUPER::check_forbidden_patterns($cnt, \@forbidden_patterns);
