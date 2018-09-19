@@ -96,7 +96,7 @@ sub check_critic {
       run( command => $cmd, verbose => 0 );
 
     # If it is the first pass, we stop here
-    return 0 if $self->pass == 1;
+    return 0 if $self->pass == 0;
 
     # And if it is a success (ie. no regression)
     return 0 if $success;
