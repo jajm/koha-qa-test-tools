@@ -27,6 +27,10 @@ BEGIN {
 }
 
 use Modern::Perl;
+
+use FindBin;
+use lib "$FindBin::RealBin";
+
 use Getopt::Long;
 use QohA::Git;
 use QohA::Files;
